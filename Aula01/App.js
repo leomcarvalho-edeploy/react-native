@@ -1,18 +1,11 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore } from 'redux';
+import reducer from './reducers';
+import PressButton from './components/UI/PressButton';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-        <Text>Changes you make will automatically reload.</Text>
-        <Text>Shake your phone to open the developer menu.</Text>
-      </View>
-    );
-  }
-}
-
+const store = createStore(reducer);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -20,4 +13,40 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  button: {
+    height: 60,
+    borderColor: '#05A5D1',
+    borderWidth: 2,
+    backgroundColor: '#333',
+    margin: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  buttonTextUnpressed: {
+    color: '#FAFAFA',
+    fontSize: 20,
+    fontWeight: '600',
+  },
+  buttonTextPressed: {
+    color: 'blue',
+    fontSize: 20,
+    fontWeight: '600',
+  },
 });
+
+export default class App extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <View style={styles.container}>
+          <PressButton
+            styleButton={styles.button}
+            pressed={this.state.pressed}
+            stylesButtonPressed={styles.buttonTextPressed}
+            stylesButtonUnpressed={styles.buttonTextUnpressed}
+          />
+        </View>
+      </Provider>
+    );
+  }
+}
